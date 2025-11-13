@@ -12,7 +12,7 @@ Du kommer att bygga en TODO-lista som en webbapplikation med av de tekniker vi h
 - Individuellt projekt.
 - Ta insipration från hur du gjorde i Fruktsidan (för att t.ex. skapa seeder-filen).
 - Skapa en användare på Github med namnet: ntijoh-fornamn-efternamn.
-- Forka detta repot: https://github.com/ntijoh-ola-lindberg/wsp1-projekt2 och arbeta i för ditt projekt. Bjud in mig (ntijoh-ola-lindberg) till ditt repository.
+- Forka detta repot: https://github.com/ntijoh-ola-lindberg/wsp1-todolistan och arbeta i för ditt projekt. Bjud in mig (ntijoh-ola-lindberg) till ditt repository.
 - I slutet på varje lektion lägger ni upp koden ni skrivit till Github.
 - Ni skriver i loggboken varje vecka.
 - Ni får feedback av mig genom hela projektet. Främst på lektioner och i loggboken - kanske även via Github.
