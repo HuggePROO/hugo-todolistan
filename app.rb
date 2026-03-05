@@ -1,9 +1,9 @@
 require 'debug'
 require 'sinatra'
 require 'securerandom'
+require 'bcrypt'
 
 class App < Sinatra::Base
-  setup_development_features(self)
   
   def db
     return @db if @db
@@ -35,7 +35,6 @@ class App < Sinatra::Base
     @movies = db.execute('SELECT * FROM movies')
     p @movies
     erb(:"movies/index")
-    #erb(:"browse") 
   end
   
 
@@ -44,9 +43,13 @@ class App < Sinatra::Base
   end
 
   post '/movies' do
-    db.execute("INSERT INTO movies (name, poster, runtime, imdb) Values(?,?,?,?)", params.values)
-    redirect('/')
-  end
+  db.execute(
+    "INSERT INTO movies (name, poster, runtime, imdb) VALUES (?, ?, ?, ?)",
+    [params[:name], params[:poster], params[:runtime], params[:imdb]]
+  )
+
+  redirect '/'
+end
 
   get '/movies/:id' do | id |
     @movie = db.execute('SELECT * FROM movies WHERE id=?',id).first
@@ -57,7 +60,7 @@ class App < Sinatra::Base
     db.execute("DELETE FROM movies WHERE id =?", id)
     redirect("/")
   end
-
+ 
   get '/movies/:id/edit' do | id |
     @movie = db.execute('SELECT * FROM movies WHERE id=?',id).first
     erb(:"movies/edit")
@@ -69,11 +72,11 @@ class App < Sinatra::Base
   end
 
   get '/acces_denied' do
-    erb(:acces_denied)
+    erb(:"movies/acces_denied")
   end
 
   get '/login' do
-    erb(:login)
+    erb(:"movies/login")
   end
 
   post '/login' do
@@ -100,7 +103,7 @@ class App < Sinatra::Base
     if bcrypt_db_password == request_plain_password
       ap "/login : Logged in -> redirecting to admin"
       session[:user_id] = db_id
-      redirect '/admin'
+      redirect '/'
     else
       ap "/login : Invalid password."
       status 401
@@ -115,7 +118,40 @@ class App < Sinatra::Base
   end
 
   get '/users/new' do
-    erb(:"users/new")
+    erb(:"movies/users/new")
   end
 
+  post '/users' do
+    username = params[:username]
+    password = params[:password]
+
+    password_hash = BCrypt::Password.create(password)
+
+    db.execute("INSERT INTO users (username, password) VALUES (?, ?)", [username, password_hash])
+
+    redirect '/login'
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+  post '/saves' do
+  user_id = session[:user_id]
+  movie_id = params[:movie_id]
+  status = params[:status]
+  rating = params[:rating]
+
+  db.execute("INSERT INTO saves (user_id, movie_id, status, rating) VALUES (?, ?, ?, ?)", [user_id, movie_id, status, rating])
+
+  redirect "/movies/#{movie_id}"
+end
 end

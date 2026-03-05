@@ -10,6 +10,21 @@ body {
 
 h1 {
   padding-left: 5%;
+  margin-top: 4%;
+  font-size:xxx-large;
+}
+
+.account-tab {
+  position: absolute;
+  top: 1%;
+  right: 10%;
+  font-size: x-large;
+  color: white;
+  border: 2px;
+  border-radius: 5px;
+  border-color: white;
+  text-decoration: none;
+
 }
 
 .container {
@@ -82,4 +97,5 @@ h1 {
 #whitetext {
   color: white !important;
   decoration: none;
+  text-decoration: none;
 }
